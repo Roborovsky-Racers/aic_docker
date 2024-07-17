@@ -16,9 +16,9 @@ if [ -z "${AIC_HOME}" ]; then
 fi
 echo "'AIC_HOME' is set to '${AIC_HOME}'"
 
-# clone aic_install if it does not exist
-if [ ! -d "${AIC_HOME}/aic_install" ]; then
-  git clone git@github.com:Roborovsky-Racers/aic_install.git ${AIC_HOME}/aic_install
+# clone aic_docker if it does not exist
+if [ ! -d "${AIC_HOME}/aic_docker" ]; then
+  git clone git@github.com:Roborovsky-Racers/aic_docker.git ${AIC_HOME}/aic_docker
 fi
 
 cd ${AIC_HOME}

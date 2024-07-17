@@ -2,8 +2,8 @@
 
 ## initial setup
 ```
-curl -O https://raw.githubusercontent.com/Roborovsky-Racers/aic_docker/main/scripts/setup.sh
-bash ./aic_docker.bash
+curl -O https://raw.githubusercontent.com/Roborovsky-Racers/aic_docker/main/scripts/setup.bash
+bash ./setup.bash
 rm ./setup.bash
 ```
 OR
