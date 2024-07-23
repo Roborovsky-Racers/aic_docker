@@ -8,6 +8,8 @@ services:
       target: dev
 
   dev:
+    depends_on:
+      - dev-base
     image: aichallenge-2024:dev
     build:
       context: .
