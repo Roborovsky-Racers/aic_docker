@@ -1,4 +1,0 @@
-lanelet2
-scikit-image
-matplotlib
-osqp

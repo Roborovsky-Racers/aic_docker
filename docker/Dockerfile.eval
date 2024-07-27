@@ -1,0 +1,31 @@
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+ARG USERNAME
+ARG UID
+ARG GID
+
+USER root
+ENV HOME=/home/${USERNAME}
+
+# install additional packages
+RUN apt-get -y install vim tmux
+
+# create user
+RUN groupadd -g "${GID}" "${USERNAME}" || true; \
+    useradd -u "${UID}" -g "${GID}" --create-home --home-dir "${HOME}" --shell /bin/bash --groups adm,sudo "${USERNAME}"; \
+    echo "${USERNAME}:${USERNAME}" | chpasswd; \
+    echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# for evaluation
+RUN mkdir -p /output
+RUN chown -R ${USERNAME}:${USERNAME} /output \
+    && chown -R ${USERNAME}:${USERNAME} /aichallenge
+
+# change to user
+USER ${USERNAME}
+
+WORKDIR /aichallenge
+
+ENTRYPOINT []
+CMD ["bash", "/aichallenge/run_evaluation.bash"]

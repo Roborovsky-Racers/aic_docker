@@ -1,11 +1,46 @@
 ---
 services:
+  eval-base:
+    image: aichallenge-2024:eval-base
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      target: eval
+
   dev-base:
     image: aichallenge-2024:dev-base
     build:
       context: .
       dockerfile: ./docker/Dockerfile
       target: dev
+
+  eval:
+    depends_on:
+      - eval-base
+    image: aichallenge-2024:eval
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.eval
+      args:
+        BASE_IMAGE: aichallenge-2024:eval-base
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+        USERNAME: ${USERNAME}
+    container_name: aic
+    stdin_open: true
+    tty: true
+    init: true
+    network_mode: host
+    user: ${USERNAME}
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    privileged: true
+    devices:
+      - /dev/dri:/dev/dri
+    command: /bin/bash -i -c "echo -e 'start aichallenge!' && sleep infinity"
 
   dev:
     depends_on:

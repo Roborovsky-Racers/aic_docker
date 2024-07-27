@@ -13,20 +13,37 @@ git clone https://github.com/Roborovsky-Racers/aic_docker.git
 ./scripts/setup.bash
 ```
 
-## build docker image
+## develop
+### build dev image
 ```
-cd ~/aic/aic_docker
 make build
 ```
 
-## up docker container from built image (without GPU)
+### up docker container from built image (without GPU)
 ```
-cd ~/aic/aic_docker
 make up
 ```
 
-## up docker container from built image (with NVIDIA GPU)
+### up docker container from built image (with NVIDIA GPU)
 ```
-cd ~/aic/aic_docker
 make gpu-up
+```
+
+## evaluation
+### use custom configuration (without rocker)
+```
+make build-eval
+make up-eval
+(auto attach to container)
+./run_evaluation.bash
+```
+
+### use official configuration
+```
+make eval
+```
+
+## cleanup docker images
+```
+make cleanup-images
 ```
