@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
-
 # Get all image IDs of aichallenge-2024 repository
 image_ids=$(docker images | grep aichallenge-2024 | awk '{print $3}')
 
