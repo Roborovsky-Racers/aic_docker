@@ -1,6 +1,10 @@
 # build base image
+
+IMAGE=$(shell printf 'aic' | xxd -p)
+
 up:
 	docker compose up dev -d
+	@code --folder-uri vscode-remote://attached-container+$(IMAGE)/aichallenge/workspace/ -d
 	@echo ">> entering container with tmux..."
 	@docker exec -it aic /usr/bin/tmux
 	docker compose down
