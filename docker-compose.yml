@@ -79,6 +79,7 @@ services:
       - user_config:${HOME}/.config
       - ros2_log:${HOME}/.ros/log
       - ccache:${HOME}/.cache/ccache
+      - vscode_server:${HOME}/.vscode-server
     privileged: true
     devices:
       - /dev/dri:/dev/dri
