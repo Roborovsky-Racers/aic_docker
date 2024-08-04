@@ -10,6 +10,7 @@ up:
 	docker compose down
 gpu-up:
 	docker compose -f ./docker-compose.yml -f ./docker/nvidia.yml up dev -d
+	@code --folder-uri vscode-remote://attached-container+$(IMAGE)/aichallenge/workspace/ -d
 	@echo ">> entering container with tmux..."
 	@docker exec -it aic /usr/bin/tmux
 	docker compose down
