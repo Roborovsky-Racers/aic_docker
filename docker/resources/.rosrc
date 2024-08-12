@@ -87,7 +87,7 @@ _colcon_package_complete() {
 
     # Get the list of package names using colcon list
     local packages
-    packages=$(colcon list --base-paths ${ROS_WS} | awk '{print $1}' 2>/dev/null)
+    packages=$(COLCON_LOG_PATH=/dev/null colcon list --base-paths ${ROS_WS} | awk '{print $1}' 2>/dev/null)
 
     # Filter the package names based on the current word being completed
     COMPREPLY=($(compgen -W "$packages" -- "$current_word"))
