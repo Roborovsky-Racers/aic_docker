@@ -93,6 +93,7 @@ _colcon_package_complete() {
     COMPREPLY=($(compgen -W "$packages" -- "$current_word"))
 }
 complete -F _colcon_package_complete colcon_cd
+complete -F _colcon_package_complete ccd
 complete -F _colcon_package_complete cb
 complete -F _colcon_package_complete cc
 complete -F _colcon_package_complete ct
