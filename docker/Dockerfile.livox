@@ -1,0 +1,38 @@
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+ARG USERNAME
+
+USER root
+
+# install additional packages
+RUN apt-get update -q \
+    && apt-get install -yqq --no-install-recommends -y \
+    libapr1-dev \
+    libaprutil1-dev
+
+RUN mkdir /livox_sdk \
+  && cd /livox_sdk \
+  && git clone https://github.com/Livox-SDK/Livox-SDK2.git \
+  && cd Livox-SDK2 \
+  && mkdir build \
+  && cd build \
+  && cmake .. -DCMAKE_BUILD_TYPE="Release" && make -j8 \
+  && sudo make install
+
+RUN mkdir -p /livox_ws/src \
+  && cd /livox_ws/src \
+  && git clone https://github.com/Livox-SDK/livox_ros_driver2.git \
+  && cd livox_ros_driver2/ \
+  && source /opt/ros/humble/setup.sh && ./build.sh humble
+
+COPY --chown=${USERNAME}:${USERNAME} ./docker/resources/MID360_config.json /livox_ws/src/livox_ros_driver2/config/MID360_config.json
+COPY --chown=${USERNAME}:${USERNAME} ./docker/resources/Makefile.livox /livox_ws/Makefile
+
+RUN chown -R ${USERNAME}:${USERNAME} /livox_ws
+RUN sed -i 's#ROS_WS=/aichallenge/workspace#ROS_WS=/livox_ws#' ${HOME}/.rosrc
+
+# change to user
+USER ${USERNAME}
+
+WORKDIR /livox_ws

@@ -1,4 +1,6 @@
-export ROS_WS=/aichallenge/workspace
+if [ -z "${ROS_WS}" ]; then
+  export ROS_WS=/aichallenge/workspace
+fi
 function cb() {
     common_args=(
       --symlink-install
