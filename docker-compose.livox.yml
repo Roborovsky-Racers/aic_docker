@@ -1,0 +1,41 @@
+---
+services:
+  livox:
+    image: aichallenge-2024:livox
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.livox
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+        USERNAME: ${USERNAME}
+    container_name: livox
+    stdin_open: true
+    tty: true
+    init: true
+    network_mode: host
+    ipc: host
+    user: ${USERNAME}
+    environment:
+      - TZ=Asia/Tokyo
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      # - SSH_AUTH_SOCK=/ssh-auth-sock
+      # - "RCUTILS_CONSOLE_OUTPUT_FORMAT=[{severity}] [{time}] [{name}] [{file_name}:{line_number}:{function_name}]: {message}" # set the ROS2 log format
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./PCD:${HOME}/livox_ws/PCD:rw
+      - ./rosbags:${HOME}/livox_ws/rosbags:rw
+      - ./docker/resources/Makefile.livox:${HOME}/livox_ws/Makefile:rw
+      # - ${SSH_AUTH_SOCK}:/ssh-auth-sock
+      # - ${HOME}/.ssh:${HOME}/.ssh
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+              count: all
+    command: /bin/bash -i -c "echo -e 'start livox!' && sleep infinity"

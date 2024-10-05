@@ -14,6 +14,8 @@ gpu-up:
 	@echo ">> entering container with tmux..."
 	@docker exec -it aic /usr/bin/tmux
 	docker compose down
+up-livox:
+	docker compose -f ./docker-compose.livox.yml up
 up-eval:
 	docker compose up eval -d
 	@echo ">> entering container with tmux..."
@@ -26,6 +28,10 @@ down:
 build:
 	docker compose build dev-base
 	docker compose build dev
+build-livox:
+	mkdir -p ./PCD
+	mkdir -p ./rosbags
+	docker compose -f ./docker-compose.livox.yml build
 build-eval:
 	@cd ../aichallenge-2024 \
 		&& rm ./submit/aichallenge_submit.tar.gz \

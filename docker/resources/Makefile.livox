@@ -1,0 +1,19 @@
+msg:
+	@ros2 launch livox_ros_driver2 msg_MID360_launch.py
+rviz:
+	@ros2 launch livox_ros_driver2 rviz_MID360_launch.py
+bag:
+	@ros2 bag record /livox/lidar /livox/imu
+
+record:
+	@ros2 launch livox_ros_driver2 msg_MID360_launch.py &
+	@cd rosbags && ros2 bag record /livox/lidar /livox/imu
+	@pkill -s SIGINT livox_ros_drive
+
+slam:
+	@ros2 launch fast_lio mapping.launch.py config_file:=mid360.yaml
+slam-offline:
+	@ros2 launch fast_lio mapping.launch.py config_file:=mid360.yaml use_sim_time:=true
+	# execute `ros2 bag play <bagfile> --clock` in another terminal after this command
+save:
+	@ros2 service call /map_save std_srvs/srv/Trigger {}
