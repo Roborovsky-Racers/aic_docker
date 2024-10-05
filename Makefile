@@ -14,7 +14,7 @@ gpu-up:
 	@echo ">> entering container with tmux..."
 	@docker exec -it aic /usr/bin/tmux
 	docker compose down
-livox-up:
+up-livox:
 	docker compose -f ./docker-compose.livox.yml up
 up-eval:
 	docker compose up eval -d
