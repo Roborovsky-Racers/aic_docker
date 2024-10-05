@@ -15,11 +15,7 @@ gpu-up:
 	@docker exec -it aic /usr/bin/tmux
 	docker compose down
 livox-up:
-	docker compose -f ./docker-compose.yml -f ./docker/nvidia.yml -f ./docker/livox.yml up dev -d
-	# @code --folder-uri vscode-remote://attached-container+$(IMAGE)/aichallenge/workspace/ -d
-	@echo ">> entering container with tmux..."
-	@docker exec -it aic /usr/bin/tmux
-	docker compose down
+	docker compose -f ./docker-compose.livox.yml up
 up-eval:
 	docker compose up eval -d
 	@echo ">> entering container with tmux..."
@@ -33,8 +29,9 @@ build:
 	docker compose build dev-base
 	docker compose build dev
 build-livox:
-	docker compose build dev-base
-	docker compose -f ./docker-compose.yml -f ./docker/livox.yml build dev
+	mkdir -p ./PCD
+	mkdir -p ./rosbags
+	docker compose -f ./docker-compose.livox.yml build
 build-eval:
 	@cd ../aichallenge-2024 \
 		&& rm ./submit/aichallenge_submit.tar.gz \
