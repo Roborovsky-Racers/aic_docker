@@ -80,16 +80,13 @@ USER ${USERNAME}
 RUN mkdir -p ${HOME}/livox_ws/src \
   && cd ${HOME}/livox_ws/src \
   && git clone -b aic2024 https://github.com/Roborovsky-Racers/livox_ros_driver2.git \
-  && git clone -b aic2024 https://github.com/Roborovsky-Racers/FAST_LIO.git --recursive
-
-RUN cd ${HOME}/livox_ws \
+  && git clone -b aic2024 https://github.com/Roborovsky-Racers/FAST_LIO.git --recursive \
+  && cd .. \
   && /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash \
-  && colcon build --packages-up-to livox_ros_driver2 --event-handlers desktop_notification- status- --parallel-workers '$(($(nproc)-2))' --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF \
   && colcon build --event-handlers desktop_notification- status- --parallel-workers '$(($(nproc)-2))' --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF"
 
 # ros settings
 COPY --chown=${USERNAME}:${USERNAME} ./docker/resources/.rosrc.livox ${HOME}/.rosrc
 RUN echo "source ~/.rosrc" >> ${HOME}/.bashrc
-RUN sed -i 's#ROS_WS=/aichallenge/workspace#ROS_WS=${HOME}/livox_ws#' ${HOME}/.rosrc
 
 WORKDIR ${HOME}/livox_ws
