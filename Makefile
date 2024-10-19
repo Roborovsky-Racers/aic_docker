@@ -22,10 +22,11 @@ up-eval:
 	@docker exec -it aic /usr/bin/tmux
 	docker compose down
 
-remote:
+zenoh:
 	docker compose up dev -d
 	@gnome-terminal -- docker exec -it aic /usr/bin/tmux
-	@bash -c 'trap "docker compose down; echo Stopping zenoh...; docker stop zenoh" SIGINT; ../aichallenge-2024/remote/connect_zenoh_static_ip.bash'
+	@../aichallenge-2024/remote/network_setting.bash
+	@bash -c 'trap "docker compose down; echo Stopping zenoh...; docker kill zenoh" SIGINT; ../aichallenge-2024/remote/connect_zenoh_static_ip.bash'
 
 down:
 	docker compose down
