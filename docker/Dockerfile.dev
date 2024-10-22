@@ -69,6 +69,9 @@ RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhisto
     && chown -R ${USERNAME}:${USERNAME} /commandhistory \
     && echo ${SNIPPET} >> "${HOME}/.bashrc"
 
+# enable bash completion
+RUN echo "source /usr/share/bash-completion/completions/git" >> "${HOME}/.bashrc"
+
 # ros settings
 COPY --chown=${USERNAME}:${USERNAME} ./docker/resources/.rosrc ${HOME}/.rosrc
 RUN echo "source ~/.rosrc" >> ${HOME}/.bashrc
