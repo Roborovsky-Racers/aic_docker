@@ -14,6 +14,12 @@ gpu-up:
 	@echo ">> entering container with tmux..."
 	@docker exec -it aic /usr/bin/tmux
 	docker compose down
+gpu-up-sa:
+	docker compose -f ./docker-compose.yml -f ./docker/nvidia.yml up dev
+
+code:
+	@code --folder-uri vscode-remote://attached-container+$(IMAGE)/aichallenge/workspace/ -d
+
 up-livox:
 	docker compose -f ./docker-compose.livox.yml up
 up-eval:
