@@ -29,8 +29,8 @@ up-eval:
 	docker compose down
 
 zenoh:
-	docker compose up dev -d
-	@gnome-terminal -- docker exec -it aic /usr/bin/tmux
+	docker compose -f ./docker-compose.yml -f ./docker/nvidia.yml up dev -d
+	# @gnome-terminal -- docker exec -it aic /usr/bin/tmux
 	@../aichallenge-2024/remote/network_setting.bash
 	@bash -c 'trap "docker compose down; echo Stopping zenoh...; docker kill zenoh" SIGINT; ../aichallenge-2024/remote/connect_zenoh_static_ip.bash'
 
